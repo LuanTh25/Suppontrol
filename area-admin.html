@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppontrol</title>
+    <link rel="stylesheet" href="css/area-admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <div>
+                <h1 class="admin-title">Suppontrol Admin</h1>
+                <p class="admin-subtitle">Painel Administrativo</p>
+            </div>
+        </div>
+
+        <div class="admin-info">
+            <div class="admin-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="admin-details">
+                <p class="admin-name" id="admin-name">Administrador</p>
+                <p class="admin-email" id="admin-email">admin@suppontrol.com</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Menu da página -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-section="dashboard">
+                <i class="fas fa-chart-line"></i>
+                Insights
+            </button>
+            <button class="nav-tab" data-section="users">
+                <i class="fas fa-users"></i>
+                Usuários
+            </button>
+            <button class="nav-tab" data-section="monitoring">
+                <i class="fas fa-pen"></i>
+                Solicitações
+                <span class="badge-notificacoes">0</span>
+            </button>
+            <button class="nav-tab" data-section="orders">
+                <i class="fas fa-shopping-cart"></i>
+                Pedidos
+            </button>
+        </div>
+
+        <!-- Sessão de insights -->
+        <div id="dashboard" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon" style="background: #0892bd;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <span>Usuários Cadastrados</span>
+                    </div>
+                    <div class="stat-number" id="total-users">0</div>
+                    <div class="stat-label">Total de usuários</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon" style="background: #28a745;">
+                            <i class="fas fa-money-bill"></i>
+                        </div>
+                        <span>Gastos (R$)</span>
+                    </div>
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Total folhas de pagamento</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon" style="background: #ffc107;">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <span>Novas Notificações</span>
+                    </div>
+                    <div class="stat-number" id="alerts-count">0</div>
+                    <div class="stat-label">Solicitações pendentes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon" style="background: #6f42c1;">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <span>Pedidos Realizados</span>
+                    </div>
+                    <div class="stat-number" id="total-orders">0</div>
+                    <div class="stat-label">Pedidos aceitos</div>
+                </div>
+            </div>
+
+            <!-- Atividades recentes dos Usuários -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h3 class="table-title">Atividade Recente</h3>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Hora</th>
+                            <th>Usuário</th>
+                            <th>Ação</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-activity">
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 20px;">
+                                <i class="fas fa-spinner fa-spin"></i> Carregando atividades...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sessão dos usuários -->
+        <div id="users" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3 class="table-title">Gerenciar Usuários</h3>
+                    <button class="btn btn-primary" onclick="showAddUserModal()">
+                        <i class="fas fa-plus"></i>
+                        Adicionar Usuário
+                    </button>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Crachá</th>
+                            <th>Cargo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 20px;">
+                                <i class="fas fa-spinner fa-spin"></i> Carregando usuários...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sessão de Solicitações -->
+        <div id="monitoring" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3 class="table-title">Solicitações de Usuários</h3>
+                    <button class="btn btn-success" onclick="refreshSolicitacoes()">
+                        <i class="fas fa-sync-alt"></i>
+                        Atualizar Solicitações
+                    </button>
+                </div>
+                
+                <!-- Filtros para as solicitações -->
+                <div class="filtros-solicitacoes">
+                    <div class="filtro-group">
+                        <label for="filtro-status">Filtrar por Status:</label>
+                        <select id="filtro-status" onchange="filtrarSolicitacoes()">
+                            <option value="todos">Todos</option>
+                            <option value="pendente">Pendentes</option>
+                            <option value="aceito">Aceitos</option>
+                            <option value="recusado">Recusados</option>
+                            <option value="em_espera">Em Espera</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filtro-group">
+                        <label for="filtro-produto">Filtrar por Produto:</label>
+                        <select id="filtro-produto" onchange="filtrarSolicitacoes()">
+                            <option value="todos">Todos</option>
+                            <option value="agua">Água</option>
+                            <option value="farinha">Farinha</option>
+                            <option value="banha">Banha</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Tabela de solicitações -->
+                <table class="table solicitacoes-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Usuário</th>
+                            <th>Crachá</th>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="solicitacoes-table-body">
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 20px;">
+                                <i class="fas fa-spinner fa-spin"></i> Carregando solicitações...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <!-- Mensagem quando não há solicitações -->
+                <div id="sem-solicitacoes" class="sem-dados" style="display: none;">
+                    <i class="fas fa-inbox"></i>
+                    <p>Nenhuma solicitação encontrada</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sessão de Pedidos Aprovados -->
+        <div id="orders" class="content-section">
+            <div class="table-container">
+            <div class="table-header">
+                <h3 class="table-title">Pedidos Aprovados</h3>
+            <div>
+                <button class="btn btn-success" onclick="refreshOrders()">
+                    <i class="fas fa-sync-alt"></i>
+                    Atualizar
+                </button>
+            </div>
+        </div>
+        
+        <!-- Cards de pedidos CORRIGIDOS -->
+        <div class="pedidos-grid" id="pedidos-container">
+            <div style="text-align: center; padding: 40px; width: 100%;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 32px;"></i>
+                <p>Carregando pedidos...</p>
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <!-- Cards de pedidos CORRIGIDOS -->
+        <div class="pedidos-grid" id="pedidos-container">
+            <div style="text-align: center; padding: 40px; width: 100%;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 32px;"></i>
+                <p>Carregando pedidos...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal para aceitar pedido -->
+    <div id="aceitarPedidoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Aceitar Pedido</h3>
+                <button class="close-btn" onclick="closeAceitarPedidoModal()">&times;</button>
+            </div>
+            <div id="aceitar-pedido-alert" class="alert"></div>
+            <form id="aceitarPedidoForm" onsubmit="event.preventDefault(); confirmarAceitacaoPedido();">
+                <div class="form-group">
+                    <label class="form-label">Data Estimada de Entrega:</label>
+                    <input type="date" class="form-input" id="data-entrega" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Entregador:</label>
+                    <select class="form-input" id="entregador" required>
+                        <option value="">Selecione o entregador</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Telefone do Entregador:</label>
+                    <input type="tel" class="form-input" id="telefone-entregador" placeholder="(11) 99999-9999" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Observações (opcional):</label>
+                    <textarea class="form-input" id="observacoes-pedido" rows="3" placeholder="Informações adicionais sobre a entrega..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Confirmar Aceitação
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAceitarPedidoModal()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para rejeitar pedido -->
+    <div id="rejeitarPedidoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Rejeitar Pedido</h3>
+                <button class="close-btn" onclick="closeRejeitarPedidoModal()">&times;</button>
+            </div>
+            <div id="rejeitar-pedido-alert" class="alert"></div>
+            <form id="rejeitarPedidoForm">
+                <div class="form-group">
+                    <label class="form-label">Motivo da Rejeição:</label>
+                    <select class="form-input" id="motivo-rejeicao" required>
+                        <option value="">Selecione o motivo</option>
+                        <option value="Estoque insuficiente">Estoque insuficiente</option>
+                        <option value="Dados incorretos do pedido">Dados incorretos do pedido</option>
+                        <option value="Fora do período de entrega">Fora do período de entrega</option>
+                        <option value="Problemas técnicos">Problemas técnicos</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Observações (opcional):</label>
+                    <textarea class="form-input" id="observacoes-rejeicao" rows="3" placeholder="Detalhes adicionais sobre a rejeição..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-times"></i> Confirmar Rejeição
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeRejeitarPedidoModal()">
+                        <i class="fas fa-undo"></i> Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para colocar pedido em espera -->
+    <div id="esperaPedidoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Colocar Pedido em Espera</h3>
+                <button class="close-btn" onclick="closeEsperaPedidoModal()">&times;</button>
+            </div>
+            <div id="espera-pedido-alert" class="alert"></div>
+            <form id="esperaPedidoForm">
+                <div class="form-group">
+                    <label class="form-label">Motivo da Espera:</label>
+                    <select class="form-input" id="motivo-espera" required>
+                        <option value="">Selecione o motivo</option>
+                        <option value="Aguardando fornecedor">Aguardando fornecedor</option>
+                        <option value="Problemas logísticos">Problemas logísticos</option>
+                        <option value="Manutenção de equipamentos">Manutenção de equipamentos</option>
+                        <option value="Falta de recursos">Falta de recursos</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Previsão de Retomada:</label>
+                    <input type="date" class="form-input" id="previsao-retomada" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Observações (opcional):</label>
+                    <textarea class="form-input" id="observacoes-espera" rows="3" placeholder="Informações adicionais sobre a espera..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-clock"></i> Confirmar Espera
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEsperaPedidoModal()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para adicionar usuário -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Adicionar Usuário</h3>
+                <button class="close-btn" onclick="closeUserModal()">&times;</button>
+            </div>
+            <div id="user-alert" class="alert"></div>
+            <form id="userForm" onsubmit="event.preventDefault(); addUser();">
+                <div class="form-group">
+                    <label class="form-label">Nome Completo</label>
+                    <input type="text" class="form-input" id="user-name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="user-email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Crachá</label>
+                    <input type="text" class="form-input" id="user-cracha" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        Salvar Usuário
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeUserModal()">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para editar usuário -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Usuário</h3>
+                <button class="close-btn" onclick="closeEditUserModal()">&times;</button>
+            </div>
+            <div id="edit-user-alert" class="alert"></div>
+            <form id="editUserForm" onsubmit="event.preventDefault(); saveUserEdit();">
+                <div class="form-group">
+                    <label class="form-label">Nome Completo</label>
+                    <input type="text" class="form-input" id="edit-user-name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="edit-user-email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Crachá</label>
+                    <input type="text" class="form-input" id="edit-user-cracha" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Salvar Alterações
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditUserModal()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/area-admin.js"></script>
+</body>
+</html>

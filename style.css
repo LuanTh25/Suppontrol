@@ -1,0 +1,367 @@
+/* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Configuração do body com o background roxo gradiente */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(to bottom, #e8d4ff 0%, #8b6bb7 40%, #5d4a8f 70%, #1a0a3e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decoração de engrenagens estáticas */
+        body::before,
+        body::after {
+            content: '';
+            position: absolute;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='rgba(255,255,255,0.05)' d='M50,10 L55,20 L65,20 L70,30 L65,40 L55,40 L50,50 L45,40 L35,40 L30,30 L35,20 L45,20 Z M50,30 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0'/%3E%3C/svg%3E");
+            background-size: 150px;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        body::before {
+            width: 300px;
+            height: 300px;
+            top: -50px;
+            left: -50px;
+        }
+
+        body::after {
+            width: 250px;
+            height: 250px;
+            bottom: -30px;
+            right: -30px;
+        }
+
+        /* Engrenagens adicionais decorativas */
+        .gear {
+            position: absolute;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='rgba(255,255,255,0.08)' d='M50,15 L53,20 L60,20 L63,25 L60,30 L53,30 L50,35 L47,30 L40,30 L37,25 L40,20 L47,20 Z M50,22 m-6,0 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0'/%3E%3C/svg%3E");
+            background-size: contain;
+            opacity: 0.2;
+        }
+
+        .gear-1 {
+            width: 120px;
+            height: 120px;
+            top: 15%;
+            right: 10%;
+        }
+
+        .gear-2 {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 8%;
+        }
+
+        .gear-3 {
+            width: 60px;
+            height: 60px;
+            top: 40%;
+            left: 5%;
+        }
+
+        .gear-4 {
+            width: 100px;
+            height: 100px;
+            bottom: 30%;
+            right: 15%;
+        }
+
+        /* Tubulações decorativas */
+        .pipe {
+            position: absolute;
+            background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 50px;
+            opacity: 0.3;
+        }
+
+        .pipe-1 {
+            width: 200px;
+            height: 20px;
+            top: 25%;
+            left: -50px;
+            transform: rotate(-15deg);
+        }
+
+        .pipe-2 {
+            width: 150px;
+            height: 15px;
+            bottom: 35%;
+            right: -30px;
+            transform: rotate(10deg);
+        }
+
+        /* Container principal */
+        .container {
+            background: linear-gradient(
+                to bottom, 
+                rgba(255, 255, 255, 0.95) 0%,
+                #7462a8 100%
+            );
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: aparecer 0.5s ease-out;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Área do logo */
+        .logo-area {
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 220px;
+            max-width: 90%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Título principal */
+        .titulo {
+            color: #333;
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* Estilo do formulário */
+        .formulario {
+            text-align: left;
+        }
+
+        /* Cada campo do formulário */
+        .campo {
+            margin-bottom: 20px;
+        }
+
+        /* Labels dos campos */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* Inputs do formulário */
+        input[type="email"],
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        /* Efeito quando o input está focado */
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Input válido */
+        input:valid {
+            border-color: #28a745;
+        }
+
+        /* Input inválido */
+        input.invalido {
+            border-color: #dc3545;
+        }
+
+        /* Mensagens de erro */
+        .erro {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+            min-height: 15px;
+        }
+
+        /* Botão de login */
+        .botao-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #24008b, #5e2ea6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
+        }
+
+        /* Efeito hover no botão */
+        .botao-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Botão quando está sendo clicado */
+        .botao-login:active {
+            transform: translateY(0);
+        }
+
+        /* Container do campo de seleção */
+        .campo-select {
+            margin-bottom: 20px;
+        }
+
+        .campo-select label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* Estilo personalizado para o select */
+        .select-estilizado {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 45px;
+            transition: all 0.3s ease;
+        }
+
+        /* Efeito hover */
+        .select-estilizado:hover {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Efeito focus */
+        .select-estilizado:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Placeholder customizado */
+        .select-estilizado:invalid {
+            color: #95a5a6;
+        }
+
+        /* Estados de validação */
+        .select-estilizado:valid {
+            border-color: #28a745;
+        }
+
+        .select-estilizado.invalido {
+            border-color: #dc3545;
+        }
+
+        /* Responsividade para tablets */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 30px;
+                max-width: 90%;
+            }
+            
+            .titulo {
+                font-size: 22px;
+            }
+
+            .gear { display: none; }
+            .pipe { display: none; }
+        }
+
+        /* Responsividade para celulares */
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 20px;
+                border-radius: 10px;
+                max-width: 95%;
+            }
+            
+            .titulo {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            
+            input[type="email"],
+            input[type="text"] {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            
+            .botao-login {
+                padding: 12px;
+                font-size: 14px;
+            }
+            
+            .campo {
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Animação simples */
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Classe para mostrar erros */
+        .mostrar-erro {
+            display: block !important;
+            animation: balancar 0.3s ease-in-out;
+        }
+
+        @keyframes balancar {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
